@@ -279,7 +279,9 @@ bool isValidMovement(const Game& aGame, const Move& aMove){
     int dist;
     int dir;
     string angle;
-    if (aMove.itsStartPosition.itsCol == aMove.itsEndPosition.itsCol)
+    if (aMove.itsStartPosition.itsCol == aMove.itsEndPosition.itsCol && aMove.itsStartPosition.itsRow == aMove.itsEndPosition.itsRow)
+        return false;
+    else if (aMove.itsStartPosition.itsCol == aMove.itsEndPosition.itsCol)
     {
         // cout<<"# Dist : "<<(aMove.itsEndPosition.itsRow - aMove.itsStartPosition.itsRow)<<endl/*<<"|-> dist : "<<aMove.itsEndPosition.itsRow<<" - "<<aMove.itsStartPosition.itsRow<<endl*/;
         dist = aMove.itsEndPosition.itsRow - aMove.itsStartPosition.itsRow;
@@ -355,7 +357,46 @@ void movePiece(Game& aGame, const Move& aMove)
     aGame.itsBoard.itsCells[aMove.itsStartPosition.itsRow][aMove.itsStartPosition.itsCol].itsPieceType = NONE;
 }
 
-void capturePieces(Game& aGame, const Move& aMove){}
+void capturePieces(Game& aGame, const Move& aMove)   // PLACE THE KING EVERYWHERE AND DUPLICATE FOR THE DEFENSOR
+{
+    if (aGame.itsCurrentPlayer->itsRole == ATTACK)
+    {
+        /* RIGHT */
+        if (isValidPosition({aMove.itsEndPosition.itsRow+1,aMove.itsEndPosition.itsCol},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow+2,aMove.itsEndPosition.itsCol},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == SWORD || aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == KING ) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsCellType != NONE) ) )
+            {
+                //delete piece (end+1,end)
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType = NONE;
+            }
+        }
+        /* LEFT */
+        if (isValidPosition({aMove.itsEndPosition.itsRow-1,aMove.itsEndPosition.itsCol},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow-2,aMove.itsEndPosition.itsCol},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsCellType != NONE) ) )
+            {
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType = NONE;
+            }
+        }
+        /* UP */
+        if (isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol-1},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol-2},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsCellType != NONE) ) )
+            {
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType = NONE;
+            }
+        }
+        /* DOWN */
+        if (isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol+1},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol+2},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsCellType != NONE) ) )
+            {
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType = NONE;
+            }
+        }
+    }
+
+}
 
 void switchCurrentPlayer(Game& aGame)
 {

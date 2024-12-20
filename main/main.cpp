@@ -5,6 +5,7 @@ using namespace std;
 #include "functions.h"
 #include "test.h"
 
+
 void isGame(){
     color(0,0);
     displayHnefataflLogo();
