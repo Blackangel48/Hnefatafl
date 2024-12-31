@@ -5,6 +5,8 @@
 using namespace std;
 #include "functions.h"
 
+extern int defaultColor;
+
 void color(int txtColor,int bgColor) // fonction d'affichage de couleurs
 {
     HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
@@ -15,7 +17,7 @@ void clearConsole();
 
 void displayHnefataflLogo()
 {
-    cout<<"   `▓▓▓▓▒  `▓▓▓▓▒`▓▓▓▒   `▓▓▓▒`▓▓▓▓▓▓▓▓▓▒ ▒▓▓▓▓▓▓▓▓▓▒  ▓▓▒  ▓▓▓▓▓▓▓▓▓▓▓▓▒  ▓▓▒     ▓▓▓▓▓▓▓▓▓▓▒ ▓▓▓▓▓▒'"<<endl;
+    cout<<"   `▓▓▓▓▒  `▓▓▓▓▒`▓▓▓▒   `▓▓▓▒`▓▓▓▓▓▓▓▓▓▒ ▓▓▓▓▓▓▓▓▓▓▒  ▓▓▒  ▓▓▓▓▓▓▓▓▓▓▓▓▒  ▓▓▒     ▓▓▓▓▓▓▓▓▓▓▒ ▓▓▓▓▓▒'"<<endl;
     cout<<"     ▓▓▒     ▓▓▒   ▓▓▓▒    ▓▒   ▓▓▒    ▓▒   ▓▓▒   `▓▒ ;▓▓▒  ▓▒   ▓▓▒   ▓▒ ;▓▓▒       ▓▓▒    ▓▒  ▓▓▒"<<endl;
     cout<<"     ▓▓▒     ▓▓▒   ▓▒▓▓▒   ▓▒   ▓▓▒  ▓▒     ▓▓▒  ▓▒  ,▓▒▓▓▒      ▓▓▒     ,▓▒▓▓▒      ▓▓▒  ▓▒    ▓▓▒"<<endl;
     cout<<"     ▓▓▓▓▓▓▓▓▓▓▒   ▓▒ `▓▓▒ ▓▒   ▓▓▓▓▓▓▒     ▓▓▓▓▓▓▒ ,▓▒ `▓▓▒     ▓▓▒    ,▓▒ `▓▓▒     ▓▓▓▓▓▓▒    ▓▓▒"<<endl;
@@ -120,7 +122,7 @@ void displayBoard(const Board& aBoard)
                 break;
             }
             cout<< piece <<" ";
-            color(15,0);
+            color(defaultColor,0);
         }cout<<"|";
     }
 
@@ -364,7 +366,7 @@ void capturePieces(Game& aGame, const Move& aMove)   // PLACE THE KING EVERYWHER
         /* RIGHT */
         if (isValidPosition({aMove.itsEndPosition.itsRow+1,aMove.itsEndPosition.itsCol},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow+2,aMove.itsEndPosition.itsCol},aGame.itsBoard))
         {
-            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == SWORD || aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == KING ) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsCellType != NONE) ) )
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == SWORD || aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsCellType != NORMAL ) )
             {
                 //delete piece (end+1,end)
                 aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType = NONE;
@@ -373,7 +375,7 @@ void capturePieces(Game& aGame, const Move& aMove)   // PLACE THE KING EVERYWHER
         /* LEFT */
         if (isValidPosition({aMove.itsEndPosition.itsRow-1,aMove.itsEndPosition.itsCol},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow-2,aMove.itsEndPosition.itsCol},aGame.itsBoard))
         {
-            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsCellType != NONE) ) )
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsCellType != NORMAL) ) )
             {
                 aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType = NONE;
             }
@@ -381,7 +383,7 @@ void capturePieces(Game& aGame, const Move& aMove)   // PLACE THE KING EVERYWHER
         /* UP */
         if (isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol-1},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol-2},aGame.itsBoard))
         {
-            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsCellType != NONE) ) )
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsCellType != NORMAL) ) )
             {
                 aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType = NONE;
             }
@@ -389,13 +391,54 @@ void capturePieces(Game& aGame, const Move& aMove)   // PLACE THE KING EVERYWHER
         /* DOWN */
         if (isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol+1},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol+2},aGame.itsBoard))
         {
-            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsCellType != NONE) ) )
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsPieceType == SWORD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsCellType != NORMAL) ) )
             {
                 aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType = NONE;
             }
         }
     }
-
+    else if (aGame.itsCurrentPlayer->itsRole == DEFENSE)
+    {
+        /* RIGHT */
+        if (isValidPosition({aMove.itsEndPosition.itsRow+1,aMove.itsEndPosition.itsCol},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow+2,aMove.itsEndPosition.itsCol},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType == SWORD) && ( aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD || aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsPieceType == KING || aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+2][aMove.itsEndPosition.itsCol].itsCellType != NORMAL ) )
+            {
+                //delete piece (end+1,end)
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow+1][aMove.itsEndPosition.itsCol].itsPieceType = NONE;
+            }
+        }
+        /* LEFT */
+        if (isValidPosition({aMove.itsEndPosition.itsRow-1,aMove.itsEndPosition.itsCol},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow-2,aMove.itsEndPosition.itsCol},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsPieceType == SHIELD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsPieceType == KING) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-2][aMove.itsEndPosition.itsCol].itsCellType != NORMAL) ) )
+            {
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow-1][aMove.itsEndPosition.itsCol].itsPieceType = NONE;
+            }
+        }
+        /* UP */
+        if (isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol-1},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol-2},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsPieceType == SHIELD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsPieceType == KING) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-2].itsCellType != NORMAL) ) )
+            {
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol-1].itsPieceType = NONE;
+            }
+        }
+        /* DOWN */
+        if (isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol+1},aGame.itsBoard) && isValidPosition({aMove.itsEndPosition.itsRow,aMove.itsEndPosition.itsCol+2},aGame.itsBoard))
+        {
+            if ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType == SHIELD) && ( (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsPieceType == SHIELD) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsPieceType == KING) || (aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+2].itsCellType != NORMAL) ) )
+            {
+                aGame.itsBoard.itsCells[aMove.itsEndPosition.itsRow][aMove.itsEndPosition.itsCol+1].itsPieceType = NONE;
+            }
+        }
+    }
+    else
+    {
+        color(4,0);
+        cout<<"PAS DE JOUEUR"<<endl;
+        color(defaultColor,0);
+    }
 }
 
 void switchCurrentPlayer(Game& aGame)
