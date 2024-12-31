@@ -120,7 +120,7 @@ void displayBoard(const Board& aBoard)
                 break;
             }
             cout<< piece <<" ";
-            color(0,0);
+            color(15,0);
         }cout<<"|";
     }
 
@@ -220,7 +220,7 @@ bool getPositionFromInput(Position& aPosition, const Board& aBoard){
         cout<<"Test '"<<input[2]<<"' is digit : "<<boolalpha<<res2<<endl;*/
         if (isdigit(input[1]) && isdigit(input[2]))
         {
-            //row=(input[1]-'0')*10 + (input[2]-'1');
+            row=(input[1]-'0')*10 + (input[2]-'1');
             //cout<<"row : "<<row<<endl;
         }
         else

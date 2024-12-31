@@ -7,7 +7,7 @@ using namespace std;
 
 
 void isGame(){
-    color(0,0);
+    color(15,0);
     displayHnefataflLogo();
 
     BoardSize aBoardSize;
@@ -30,18 +30,22 @@ void isGame(){
 
             while (!getPositionFromInput(aPos,aBoard))
             {
+                color(4,0);
                 cout<<"Position non-valide"<<endl;
+                color(15,0);
             }
             while (!getPositionFromInput(aPosEnd,aBoard))
             {
+                color(4,0);
                 cout<<"Position non-valide"<<endl;
+                color(15,0);
             }
             aMove = {aPos,aPosEnd};
             if (!isValidMovement(aGame,aMove))
             {
                 color(4,0);
                 cout<<"Mouvement non-valide"<<endl;
-                color(0,0);
+                color(15,0);
             }
         }while (!isValidMovement(aGame,aMove));
         movePiece(aGame,aMove);
